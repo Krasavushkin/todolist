@@ -7,20 +7,16 @@ type TasksArr = {
     isDone: boolean
 }
 
-type StudentsArray = {
 
-
-}
 
 
 type TasksType = {
     title: string;
     tasks: TasksArr[];
-    students: StudentsArray
+    students: string[]
 }
 
 export const Tasks = (props: TasksType) => {
-    debugger
     return (
         <ul>
             <h1> {props.title}</h1>
@@ -41,8 +37,4 @@ export const Tasks = (props: TasksType) => {
         </ul>
     )
 };
-
-
-/*    ;
-};*/
 
