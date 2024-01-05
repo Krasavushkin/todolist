@@ -1,0 +1,24 @@
+.style {
+    width:300px;
+    height: auto;
+    border: 1px solid black;
+    margin: 100px auto;
+}
+.style .input{
+    margin-top: 10px;
+}
+.style .ul{
+    list-style: none;
+}
+.isDone {
+    opacity: 0.5;
+}
+.error {
+    border: 1px solid red;
+}
+.error_message {
+    color: red;
+}
+.filter {
+    background-color: #d202ff;
+}
