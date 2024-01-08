@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import './App.css';
 import {TasksPropsType, TodoList} from "./todoList/TodoList";
 import {AddItemForm} from "./todoList/AddItemForm";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {Menu} from "@mui/icons-material";
+import {Appbar} from "./todoList/appbar";
 
 
 export type FilterValueType = 'all' | 'completed' | 'active';
@@ -52,8 +55,9 @@ function App() {
         })
     }
     const changeTodolistTitle = (todolistId: string, newTodolistTitle: string) => {
-        setTodolists(todolists.map(el => el.id === todolistId? {...el, title: newTodolistTitle} : el)
-        )}
+        setTodolists(todolists.map(el => el.id === todolistId ? {...el, title: newTodolistTitle} : el)
+        )
+    }
     const addTask = (todolistId: string, title: string) => {
         let newTask = {id: crypto.randomUUID(), title: title, isDone: false}
         setTasksObj({...tasksObj, [todolistId]: [newTask, ...tasksObj[todolistId]]})
@@ -63,34 +67,51 @@ function App() {
         setTodolists([newTodoList, ...todolists])
         setTasksObj({...tasksObj, [newTodoList.id]: []})
     }
+    const removeTodoList = (todoListId: string) => {
+        setTodolists(todolists.filter(tl => tl.id !== todoListId));
+        delete tasksObj[todoListId];
+        setTasksObj({...tasksObj})
+    }
     return (
         <div className="App">
-            <AddItemForm addItem={addTodoList}/>
-            {todolists.map(tl => {
-                let filteredTasksArr = tasksObj[tl.id];
-                if (tl.filter === 'active') {
-                    filteredTasksArr = tasksObj[tl.id].filter(t => !t.isDone)
-                }
-                if (tl.filter === 'completed') {
-                    filteredTasksArr = tasksObj[tl.id].filter(t => t.isDone)
-                }
-                return <TodoList
-                    key={tl.id}
-                    id={tl.id}
-                    title={tl.title}
-                    tasks={filteredTasksArr}
-                    filterTasks={filterTasks}
-                    removeTask={removeTask}
-                    changeStatus={changeStatus}
-                    changeTitle={changeTaskTitle}
-                    addTask={addTask}
-                    filter={tl.filter}
-                    changeTodolistTitle={changeTodolistTitle}
-                />
-            })}
-
+            <Appbar/>
+            <Container fixed>
+                <Grid container style={{padding: '10px'}}>
+                    <AddItemForm addItem={addTodoList}/>
+                </Grid>
+                <Grid container spacing={3}>
+                    {todolists.map(tl => {
+                        let filteredTasksArr = tasksObj[tl.id];
+                        if (tl.filter === 'active') {
+                            filteredTasksArr = tasksObj[tl.id].filter(t => !t.isDone)
+                        }
+                        if (tl.filter === 'completed') {
+                            filteredTasksArr = tasksObj[tl.id].filter(t => t.isDone)
+                        }
+                        return <Grid item>
+                            <Paper style={{padding: '10px'}}>
+                            <TodoList
+                                key={tl.id}
+                                id={tl.id}
+                                title={tl.title}
+                                tasks={filteredTasksArr}
+                                filterTasks={filterTasks}
+                                removeTask={removeTask}
+                                changeStatus={changeStatus}
+                                changeTitle={changeTaskTitle}
+                                addTask={addTask}
+                                filter={tl.filter}
+                                changeTodolistTitle={changeTodolistTitle}
+                                removeTodolist={removeTodoList}
+                            />
+                            </Paper>
+                        </Grid>
+                    })}
+                </Grid>
+            </Container>
         </div>
-    );
+    )
+        ;
 }
 
 export default App;

@@ -1,5 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import c from "./Todolist.module.css";
+import {Button, IconButton, TextField} from "@mui/material";
+import {AddBox} from "@mui/icons-material";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -22,11 +24,19 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
         setTitle(e.currentTarget.value)
     }
     return <div>
-        <input value={title}
-               onChange={onChangeTitleHandler}
-               onKeyPress={keyPressHandler}
-               className={error ? c.error : ""}/>
-        <button onClick={addTaskHandler}> + </button>
-        {error ? <div className={c.error_message}> Field is required </div> : ''}
+        <TextField
+            size='small'
+            variant='outlined'
+            defaultValue="Small"
+            value={title}
+            onChange={onChangeTitleHandler}
+            onKeyPress={keyPressHandler}
+            error={!!error}
+            label='Enter the title'
+            helperText={error}
+        />
+
+        {/*<button onClick={addTaskHandler}> + </button>*/}
+        <Button variant='contained' color='primary' size='medium' onClick={addTaskHandler}> + </Button>
     </div>
 }
